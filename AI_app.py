@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 from questions import QUESTIONS
 from evaluation import evaluate_answer
@@ -19,8 +17,6 @@ def init_session():
         st.session_state.show_result = False
     if "warning_message" not in st.session_state:
         st.session_state.warning_message = ""
-    # IMPORTANT: do NOT touch 'answer_text' here.
-    # Let the text_area widget create and update it.
 
 
 def go_to_next_question():
