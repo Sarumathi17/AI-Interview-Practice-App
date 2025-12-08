@@ -77,7 +77,7 @@ AI-Interview-Practice-App/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/AI-Interview-Practice-App.git
+git clone https://github.com/Sarumathi17/AI-Interview-Practice-App.git
 ```
 2. Navigate to the project folder:
 ```bash
