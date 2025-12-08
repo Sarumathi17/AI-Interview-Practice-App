@@ -59,11 +59,16 @@ Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**
 ```
 AI-Interview-Practice-App/
 │
+├── images/
+│   ├── home.jpg
+│   ├── evaluation.jpg
+│   └── ideal_answer.jpg
+│
 ├── AI_app.py            # Streamlit web application (UI + flow control)
 ├── questions.py         # Question bank with questions, ideal answers & keywords
 ├── evaluation.py        # NLP-based answer evaluation and scoring logic
 ├── test_evaluate.py     # Script to test evaluation logic independently
-├── README.md            # Project documentation
+└── README.md            # Project documentation
 ```
 
 ---
@@ -87,6 +92,19 @@ pip install streamlit
 streamlit run app.py
 ```
 5. Open the browser URL shown in the terminal
+
+---
+
+## 📸 App Screenshots
+
+### 🏠 Home Screen
+![Home Screen](images/home.png)
+
+### ✅ Answer Evaluation
+![Evaluation](images/evaluate.png)
+
+### 💡 Ideal Answer View
+![Ideal Answer](images/ideal_answer.png)
 
 ---
 
