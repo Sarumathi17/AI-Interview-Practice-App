@@ -1,15 +1,17 @@
-# 🎤 AI Interview Practice App (MVP)
+# 🎤 AI Interview Practice App (MVP | Phase 2 in Progress)
 
 An AI-powered mock interview web application that helps students and job seekers practice **Machine Learning interview questions** by evaluating their answers and providing instant feedback.
 
-Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**.
+Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**, with **audio-based answer support currently under development in Phase 2**.
+
 
 ---
 
 ## 🚀 Features
 
 - Presents **one ML interview question at a time** (mock interview style)
-- Accepts **text-based answers** from users
+- Accepts **text-based answers** from users (MVP)
+- Phase 2: **Audio-based answers using in-browser microphone recording** (in progress)
 - Automatically evaluates answers using:
   - keyword matching
   - length-based heuristics
@@ -21,6 +23,7 @@ Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**
 - Allows users to **compare their answer with an ideal answer**
 - Smooth navigation with **Next Question** functionality
 - Simple, clean, and interactive UI
+
 
 ---
 
@@ -39,6 +42,7 @@ Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**
    - feedback is generated
 5. The user can compare their answer with the ideal answer.
 6. Clicking **Next Question** moves to the next interview question.
+7. (Phase 2) Users can also record spoken answers, which are converted to text via a placeholder Speech-to-Text (STT) layer before evaluation.
 
 ---
 
@@ -52,6 +56,8 @@ Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**
   - `app.py` – UI and flow control
   - `questions.py` – question bank
   - `evaluation.py` – answer evaluation logic
+- **Audio Input Pipeline** – in-browser microphone recording (Phase 2)
+- **Speech-to-Text (STT)** – placeholder layer designed for future Whisper integration
 
 ---
 
@@ -108,21 +114,31 @@ streamlit run app.py
 
 ---
 
-## ✅ Current Scope (MVP)
+## ✅ Current Scope
 
-- Text-based answer evaluation
+- Text-based answer evaluation (stable MVP)
 - Machine Learning interview questions
 - Rule-based, explainable scoring
+- Audio recording pipeline implemented in **Phase 2 branch** (STT placeholder)
 
 ---
 
 ## 🔮 Future Enhancements
 
-- 🎙 Audio-based answers using Speech-to-Text
+- 🎙 Audio-based answers using Speech-to-Text (architecture ready, transcription integration pending)
 - 🤖 Semantic similarity scoring using embeddings (SBERT / Transformers)
 - 📊 Progress tracking and performance history
 - 🧑‍💼 HR and behavioral interview questions
 - 🌐 Deployment on cloud platforms
+
+---
+
+## 🧪 Development Status
+
+- `main` branch: Stable text-based MVP
+- `audio-phase2` branch: Audio recording support with placeholder transcription
+
+The project follows a phased development approach using Git branches.
 
 ---
 
