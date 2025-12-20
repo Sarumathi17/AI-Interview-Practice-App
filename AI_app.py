@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 from questions import QUESTIONS
 from evaluation import evaluate_answer
