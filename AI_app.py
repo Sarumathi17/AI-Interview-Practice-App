@@ -31,8 +31,8 @@ def init_session():
         "warning_message": "",
         "input_mode": "Text",
         "prev_input_mode": "Text",
-        "answer_text": "",
-        "editable_transcript": ""
+        "editable_transcript": "",
+        "has_evaluated": False
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -61,20 +61,27 @@ def go_to_next_question():
 def evaluate_current_answer():
     qid = st.session_state.current_qid
     mode = st.session_state.input_mode
-    audio_key = f"audio_input_{qid}"
 
-    # -------- TEXT MODE --------
+    # ---------------- TEXT MODE ----------------
     if mode == "Text":
-        user_ans = st.session_state.answer_text.strip()
+        user_ans = st.session_state.get("editable_transcript", "").strip()
+
+
         if not user_ans:
             st.session_state.warning_message = "Please type your answer before evaluating 😊"
+            st.session_state.last_result = None
+            st.session_state.show_result = False
             return
 
-    # -------- AUDIO MODE --------
+    # ---------------- AUDIO MODE ----------------
     else:
+        audio_key = f"audio_input_{qid}"
         audio_data = st.session_state.get(audio_key)
+
         if audio_data is None:
             st.session_state.warning_message = "Please record your answer before evaluating 🎙️"
+            st.session_state.last_result = None
+            st.session_state.show_result = False
             return
 
         audio_bytes = audio_data.getvalue()
@@ -84,17 +91,32 @@ def evaluate_current_answer():
             st.session_state.warning_message = (
                 f"Recording too short ({duration:.1f}s). Please record again 🎙️"
             )
+            st.session_state.last_result = None
+            st.session_state.show_result = False
             return
 
-        user_ans = st.session_state.editable_transcript.strip()
+        user_ans = st.session_state.get("editable_transcript", "").strip()
+
         if not user_ans:
             st.session_state.warning_message = "Transcript is empty. Please edit or retry recording."
+            st.session_state.last_result = None
+            st.session_state.show_result = False
             return
 
-    # -------- FINAL EVALUATION --------
+    # ---------------- FINAL EVALUATION ----------------
     st.session_state.warning_message = ""
     st.session_state.last_result = evaluate_answer(qid, user_ans)
     st.session_state.show_result = True
+    st.session_state.has_evaluated = True
+
+
+def reset_on_transcript_edit():
+    # Reset ONLY if evaluation already happened
+    if st.session_state.get("has_evaluated", False):
+        st.session_state.last_result = None
+        st.session_state.show_result = False
+        st.session_state.warning_message = ""
+        st.session_state.has_evaluated = False
 
 
 # ---------- MAIN APP ----------
@@ -117,7 +139,6 @@ def main():
         st.session_state.last_result = None
         st.session_state.show_result = False
         st.session_state.warning_message = ""
-        st.session_state.answer_text = ""
         st.session_state.editable_transcript = ""
         st.session_state.prev_input_mode = st.session_state.input_mode
 
@@ -135,11 +156,12 @@ def main():
     # -------- TEXT MODE --------
     if mode == "Text":
         st.text_area(
-            "Type your answer here:",
-            key="answer_text",
-            height=200,
-            label_visibility="collapsed"
+            "You can edit the transcribed text:",
+            key="editable_transcript",
+            height=150,
+            on_change=reset_on_transcript_edit
         )
+
 
     # -------- AUDIO MODE --------
     else:
@@ -160,6 +182,8 @@ def main():
 
         if audio_data is not None:
             st.audio(audio_data)
+            st.info("🎙 Audio recorded. You can edit the transcript or evaluate your answer.")
+
 
             # 🔹 AUTO-GENERATE TRANSCRIPT (ONCE)
             if not st.session_state.editable_transcript:
@@ -173,8 +197,10 @@ def main():
             st.text_area(
                 "You can edit the transcribed text:",
                 key="editable_transcript",
-                height=150
+                height=150,
+                on_change=reset_on_transcript_edit
             )
+
 
     # -------- Buttons --------
     col1, col2 = st.columns(2)
@@ -182,6 +208,9 @@ def main():
         st.button("✅ Evaluate my answer", on_click=evaluate_current_answer)
     with col2:
         st.button("⏭ Next question", on_click=go_to_next_question)
+
+    if st.session_state.show_result:
+        st.success("✅ Answer evaluated.")
 
     # -------- Warning --------
     if st.session_state.warning_message:
