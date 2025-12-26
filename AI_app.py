@@ -1,4 +1,10 @@
+
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
+import whisper
 import streamlit as st
+import tempfile
 from questions import QUESTIONS
 from evaluation import evaluate_answer
 
@@ -9,17 +15,29 @@ QUESTION_IDS = list(QUESTIONS.keys())
 MIN_AUDIO_SECONDS = 2.5
 
 
-def audio_duration_seconds(audio_bytes: bytes, sample_rate=16000) -> float:
-    """Estimate duration of audio in seconds."""
-    return len(audio_bytes) / (sample_rate * 2)
+@st.cache_resource
+def load_whisper_model():
+    return whisper.load_model("base", device="cpu")
+
+whisper_model = load_whisper_model()
 
 
 def transcribe_audio_file(audio_bytes: bytes) -> str:
-    """
-    Placeholder Speech-to-Text.
-    Replace later with Whisper / API.
-    """
-    return "This is a placeholder transcript from the recorded audio."
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+        f.write(audio_bytes)
+        temp_path = f.name
+
+    try:
+        result = whisper_model.transcribe(temp_path)
+        return result["text"]
+    finally:
+        os.remove(temp_path) 
+
+
+
+def audio_duration_seconds(audio_bytes: bytes, sample_rate=16000) -> float:
+    """Estimate duration of audio in seconds."""
+    return len(audio_bytes) / (sample_rate * 2)
 
 
 # ---------- SESSION STATE ----------

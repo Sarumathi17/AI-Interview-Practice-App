@@ -80,8 +80,9 @@ def evaluate_answer(qid: str, user_answer: str) -> Dict:
 
     if missing:
         feedback_parts.append(
-            "You missed these important points: " + ", ".join(missing) + "."
+            "Try to include the missing key concepts to strengthen your answer."
         )
+
 
     if len_score <= 3:
         feedback_parts.append(
