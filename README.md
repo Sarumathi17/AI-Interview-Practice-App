@@ -86,6 +86,8 @@ cd AI-Interview-Practice-App
 ```bash
 pip install -r requirements.txt
 ```
+> ⚠️ *FFmpeg must be installed system-wide for audio transcription to work.*
+
 4. Run the application:
 ```bash
 streamlit run app.py
