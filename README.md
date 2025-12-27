@@ -1,63 +1,60 @@
-# 🎤 AI Interview Practice App (MVP | Phase 2 in Progress)
+# 🎤 AI Interview Practice App
 
-An AI-powered mock interview web application that helps students and job seekers practice **Machine Learning interview questions** by evaluating their answers and providing instant feedback.
+An AI-powered mock interview application that helps students and job seekers
+practice **Machine Learning interview questions** by evaluating their answers
+using **NLP, semantic similarity, and speech-to-text (Whisper)**.
 
-Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**, with **audio-based answer support currently under development in Phase 2**.
-
+This project simulates a real interview experience by providing instant scoring,
+feedback, and ideal answers.
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-- Presents **one ML interview question at a time** (mock interview style)
-- Accepts **text-based answers** from users (MVP)
-- Phase 2: **Audio-based answers using in-browser microphone recording** (in progress)
-- Automatically evaluates answers using:
-  - keyword matching
-  - length-based heuristics
+- One-question-at-a-time **mock interview flow**
+- Supports **text-based and audio-based answers**
+- Converts speech to text using **OpenAI Whisper**
+- Allows users to **edit the transcript before evaluation**
+- Evaluates answers using:
+  - Keyword matching
+  - Answer length heuristics
+  - **Semantic similarity (Sentence Transformers)**
 - Generates:
-  - total score (out of 10)
-  - keyword score and length score
-  - detailed feedback
-  - missing important points
-- Allows users to **compare their answer with an ideal answer**
-- Smooth navigation with **Next Question** functionality
-- Simple, clean, and interactive UI
-
+  - Final score (out of 10)
+  - Keyword, length, and semantic scores
+  - Actionable feedback
+  - Missing key concepts
+- Clean and interactive UI built with **Streamlit**
 
 ---
 
-## 🧠 How the App Works (High-Level Flow)
+## 🧠 How the System Works
 
-1. Loads a structured question bank containing:
-   - question text
-   - ideal answers
-   - important keywords
-2. Displays one question to the user at a time.
-3. User types an answer in the text box.
-4. On clicking **Evaluate**:
-   - the answer is preprocessed
-   - important keywords are detected
-   - a score is calculated
-   - feedback is generated
-5. The user can compare their answer with the ideal answer.
-6. Clicking **Next Question** moves to the next interview question.
-7. (Phase 2) Users can also record spoken answers, which are converted to text via a placeholder Speech-to-Text (STT) layer before evaluation.
+1. A Machine Learning interview question is shown to the user.
+2. The user answers using **text or voice**.
+3. If audio is used:
+   - Speech is converted to text using **Whisper**
+   - The transcript can be edited by the user.
+4. The final answer is evaluated using:
+   - Keyword presence
+   - Semantic similarity with the ideal answer
+   - Answer length quality
+5. The app displays:
+   - Final score
+   - Feedback
+   - Missing important points
+   - Ideal answer for comparison
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Python**
-- **Streamlit** – for building the interactive web UI
+- **Streamlit** – interactive web application
+- **Whisper (OpenAI)** – speech-to-text
+- **Sentence Transformers** – semantic similarity scoring
 - **NLP preprocessing** – text normalization and keyword extraction
-- **Session State** – to manage question flow and preserve user input
-- Modular design using:
-  - `app.py` – UI and flow control
-  - `questions.py` – question bank
-  - `evaluation.py` – answer evaluation logic
-- **Audio Input Pipeline** – in-browser microphone recording (Phase 2)
-- **Speech-to-Text (STT)** – placeholder layer designed for future Whisper integration
+- **Session State** – smooth navigation and state management
 
 ---
 
@@ -65,16 +62,12 @@ Built as an MVP using **Streamlit** and a **custom NLP-based evaluation engine**
 ```
 AI-Interview-Practice-App/
 │
-├── images/
-│   ├── home.jpg
-│   ├── evaluation.jpg
-│   └── ideal_answer.jpg
-│
-├── AI_app.py            # Streamlit web application (UI + flow control)
-├── questions.py         # Question bank with questions, ideal answers & keywords
-├── evaluation.py        # NLP-based answer evaluation and scoring logic
-├── test_evaluate.py     # Script to test evaluation logic independently
-└── README.md            # Project documentation
+├── AI_app.py # Streamlit UI + application logic
+├── evaluation.py # Keyword, length, and semantic scoring
+├── questions.py # Question bank with ideal answers & keywords
+├── test_evaluate.py # Script to test evaluation logic independently
+├── images/ # App screenshots
+└── README.md # Project documentation
 ```
 
 ---
@@ -91,7 +84,7 @@ cd AI-Interview-Practice-App
 ```
 3. Install dependencies:
 ```bash
-pip install streamlit
+pip install -r requirements.txt
 ```
 4. Run the application:
 ```bash
@@ -104,41 +97,33 @@ streamlit run app.py
 ## 📸 App Screenshots
 
 ### 🏠 Home Screen
-![Home Screen](images/home.png)
+![Home Screen](images/Pic1.jpg)
 
 ### ✅ Answer Evaluation
-![Evaluation](images/evaluate.png)
+![Recording](images/Pic2.jpg)
 
 ### 💡 Ideal Answer View
-![Ideal Answer](images/ideal_answer.png)
+![Evaluation score](images/Pic3.jpg)
+
 
 ---
 
-## ✅ Current Scope
+## 🧩 What I Learned From This Project
 
-- Text-based answer evaluation (stable MVP)
-- Machine Learning interview questions
-- Rule-based, explainable scoring
-- Audio recording pipeline implemented in **Phase 2 branch** (STT placeholder)
+- Integrating speech-to-text (Whisper) in a real application
+- Designing explainable AI scoring systems
+- Combining rule-based NLP with semantic embeddings
+- Managing complex UI state in Streamlit
+- Debugging real-world issues (audio, FFmpeg, Windows compatibility)
 
 ---
 
 ## 🔮 Future Enhancements
 
-- 🎙 Audio-based answers using Speech-to-Text (architecture ready, transcription integration pending)
-- 🤖 Semantic similarity scoring using embeddings (SBERT / Transformers)
-- 📊 Progress tracking and performance history
-- 🧑‍💼 HR and behavioral interview questions
-- 🌐 Deployment on cloud platforms
-
----
-
-## 🧪 Development Status
-
-- `main` branch: Stable text-based MVP
-- `audio-phase2` branch: Audio recording support with placeholder transcription
-
-The project follows a phased development approach using Git branches.
+- Confidence and fluency scoring from audio
+- Progress tracking across multiple attempts
+- HR and behavioral interview questions
+- Deployment on Streamlit Cloud
 
 ---
 
